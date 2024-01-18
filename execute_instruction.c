@@ -1,31 +1,33 @@
 #include "monty.h"
+#include <string.h>
+#include <stdio.h>
 
 /**
  * execute_instruction - Executes a Monty instruction
  * @stack: Double pointer to the head of the stack
+ * @instruction: Monty instruction to be executed
  * @value: Value to be used in the instruction
  *
  * Return: void
  */
-void execute_instruction(stack_t **stack, int value) {
-    stack_t *new_node;
-    new_node = malloc(sizeof(stack_t));
+void execute_instruction(stack_t **stack, char *instruction, int value) {
+    instruction_t instructions[] = {
+        {"push", &push},
+        {"pall", &pall},
+        {NULL, NULL}
+    };
 
-    if (new_node == NULL) {
-        fprintf(stderr, "Error: malloc failed\n");
-        exit(EXIT_FAILURE);
+    int i = 0;
+
+    while (instructions[i].opcode != NULL) {
+        if (strcmp(instruction, instructions[i].opcode) == 0) {
+            instructions[i].f(stack, value);
+            return;
+        }
+        i++;
     }
 
-    new_node->n = value;
-    new_node->prev = NULL;
-
-    if (*stack != NULL) {
-        new_node->next = *stack;
-        (*stack)->prev = new_node;
-    } else {
-        new_node->next = NULL;
-    }
-
-    *stack = new_node;
+    fprintf(stderr, "L%d: unknown instruction %s\n", value, instruction);
+    exit(EXIT_FAILURE);
 }
 

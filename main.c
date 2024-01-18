@@ -1,32 +1,31 @@
 #include "monty.h"
+#include <stdio.h>
 #include <stdlib.h>
 
-stack_t *stack = NULL;
-
-int main(int argc, char *argv[]) {
-    FILE *file;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <file>\n", argv[0]);
+/**
+ * push - Pushes an element to the stack
+ * @stack: Double pointer to the head of the stack
+ * @value: Value to be pushed
+ *
+ * Return: void
+ */
+void push(stack_t **stack, int value) {
+    stack_t *new_node = malloc(sizeof(stack_t));
+    if (new_node == NULL) {
+        fprintf(stderr, "Error: malloc failed\n");
         exit(EXIT_FAILURE);
     }
 
-    file = fopen(argv[1], "r");
-    if (file == NULL) {
-        fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-        exit(EXIT_FAILURE);
+    new_node->n = value;
+    new_node->prev = NULL;
+
+    if (*stack != NULL) {
+        new_node->next = *stack;
+        (*stack)->prev = new_node;
+    } else {
+        new_node->next = NULL;
     }
 
-    while ((read = getline(&line, &len, file)) != -1) {
-        int value = 0;
-        execute_instruction(&stack, value);
-    }
-
-    free(line);
-    fclose(file);
-    return 0;
+    *stack = new_node;
 }
 
