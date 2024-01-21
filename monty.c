@@ -1,5 +1,7 @@
 #include "monty.h"
 
+struct bus_s bus = {NULL, NULL, NULL, 0};
+
 int main(int argc, char *argv[])
 {
     FILE *file;
@@ -13,11 +15,12 @@ int main(int argc, char *argv[])
     instruction_t instructions[] = {
         {"push", push},
         {"pall", pall},
-	{"pint", pint},
+        {"pint", pint},
         {"pop", pop},
         {"swap", swap},
         {"add", add},
         {"nop", nop},
+        {"pchar", pchar},
         {NULL, NULL}};
 
     if (argc != 2)
@@ -27,6 +30,7 @@ int main(int argc, char *argv[])
     }
 
     file = fopen(argv[1], "r");
+
     if (!file)
     {
         fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
@@ -37,6 +41,7 @@ int main(int argc, char *argv[])
     {
         line_number++;
         opcode = strtok(line, " \n");
+
         if (opcode)
         {
             int i = 0;
@@ -61,3 +66,4 @@ int main(int argc, char *argv[])
     fclose(file);
     exit(EXIT_SUCCESS);
 }
+
