@@ -21,3 +21,4 @@ void add(stack_t **stack, unsigned int line_number)
     current->next->n += current->n;
     pop(stack, line_number); /* Remove the top element */
 }
+
