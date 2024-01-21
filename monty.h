@@ -47,7 +47,7 @@ extern bus_t bus;
 
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
-
+int is_integer(char *str);
 int main(int argc, char *argv[]);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
